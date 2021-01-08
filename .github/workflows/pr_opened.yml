@@ -1,7 +1,7 @@
 name: pr_opened     # Run CI or build docker images (if any)
 on:
     pull_request:
-        branches: [develop, staging, master]
+        branches: [develop, staging, main]
         # Note: By default, a workflow only runs when a `pull_request`'s activity type is opened, synchronize, or reopened.
         # To trigger workflows for more activity types, use the `types` keyword.
         types: [opened, synchronize, reopened]
@@ -30,6 +30,4 @@ jobs:
             env:
                 ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
                 IMAGE_TAG: ${{ github.sha }}
-            run: |
-                docker-compose build nginx \
-                docker tag nginx:latest ${ECR_REGISTRY}/nginx:${IMAGE_TAG}
+            run: docker-compose build nginx && docker-compose up -d nginx && sleep 30 && curl -I 127.0.0.1:8080
