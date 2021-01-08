@@ -30,4 +30,4 @@ jobs:
             env:
                 ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
                 IMAGE_TAG: ${{ github.sha }}
-            run: docker-compose build nginx
+            run: docker-compose build nginx && docker-compose up -d nginx && sleep 30 && curl -I 127.0.0.1:8080
