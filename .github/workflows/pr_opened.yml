@@ -30,6 +30,4 @@ jobs:
             env:
                 ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
                 IMAGE_TAG: ${{ github.sha }}
-            run: |
-                docker-compose build nginx \
-                docker tag nginx:latest ${ECR_REGISTRY}/nginx:${IMAGE_TAG}
+            run: docker-compose build nginx
